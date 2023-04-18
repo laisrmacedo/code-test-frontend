@@ -8,12 +8,11 @@ const Container = styled.div`
   border: 1px solid #999999;
   border-radius: 16px;
   padding-bottom: 24px;
-
+  max-width: calc(800px - 24px - 24px);
 
   div{
     display: flex;
     align-items: center;
-    /* justify-content: center; */
   }
   
   .title{
@@ -33,30 +32,24 @@ const Container = styled.div`
       width: 100%;
       display: flex;
       justify-content: space-between;
-      /* border: 1px red solid; */
     }
   }
-
 `
 
-
-export const Post = () => {
+export const Post = (props) => {
   return (
     <Container>
       <div className='title'>
-        <h2>My First Post at CodeLeap Network!</h2>
+        <h2>{props.data.title}</h2>
         <span></span>
       </div>
       <div className='postData'>
         <span>
-          <h5>@Criador</h5>
-          <p>25 minutos atras</p>
+          <h5>@{props.data.username}</h5>
+          <p>{props.data.created_datetime}</p>
         </span>
-        <p>Curabitur suscipit suscipit tellus. Phasellus consectetuer vestibulum elit. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Maecenas egestas arcu quis ligula mattis placerat. Duis vel nibh at velit scelerisque suscipit.
-
-Duis lobortis massa imperdiet quam. Aenean posuere, tortor sed cursus feugiat, nunc augue blandit nunc, eu sollicitudin urna dolor sagittis lacus. Fusce a quam. Nullam vel sem. Nullam cursus lacinia erat.</p>
+        <p>{props.data.content}</p>
       </div>
-      
     </Container>
   )
 }
