@@ -33,6 +33,8 @@ export const Body = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   font-family: 'Roboto';
   font-size: 16px;
+  background: #DDDDDD;
 `
