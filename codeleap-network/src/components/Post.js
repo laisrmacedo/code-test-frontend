@@ -27,6 +27,10 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     gap: 16px;
+
+    >p{
+      width: 100%;
+    }
     
     span{
       width: 100%;
