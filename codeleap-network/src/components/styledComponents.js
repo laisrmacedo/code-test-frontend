@@ -37,4 +37,10 @@ export const Body = styled.div`
   font-family: 'Roboto';
   font-size: 16px;
   background: #DDDDDD;
+
+  h2{
+    font-size: 22px;
+    color: #FFFFFF;
+    font-weight: 700;
+  }
 `
