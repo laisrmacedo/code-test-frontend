@@ -1,9 +1,10 @@
 import styled from 'styled-components'
-// import codeleap from '../assets/codeleap_logo.png'
 import { useState } from 'react'
 import { Body } from '../components/styledComponents'
 import { useNavigate } from "react-router-dom";
 import { goToPostsPage } from "../router/coordinator";
+import { useDispatch } from "react-redux";
+import { signupUser } from '../actions/actions';
 
 const Container = styled.main`
   padding: 24px;
@@ -44,25 +45,25 @@ const Container = styled.main`
     align-self: flex-end;
     width: 111px;
     height: 32px;
-    background: ${(props) => (props.username.length === 0? `#cfdbff`: `#7695EC`)};
     border-radius: 8px;
     border: none;
     color: #FFF;
+    background: ${(props) => (props.username.length === 0? `#cfdbff`: `#7695EC`)};
     cursor: ${(props) => (props.username.length === 0? `auto`: `pointer`)};
   }
 `
 
 export const Signup = () => {
-  // const [isLoading, setIsLoading] = useState(false)
   const [username, setUsername] = useState("")
   const navigate = useNavigate()
 
-  const signup = () => {
-    localStorage.setItem("token", username)
-    goToPostsPage(navigate)
-    setUsername("")
-  }
+  const dispatch = useDispatch()
 
+  const signup = () => {
+    dispatch(signupUser(username))
+    goToPostsPage(navigate)
+  }
+  
   return (
     <Body>
       <Container username={username}>
