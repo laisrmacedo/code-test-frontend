@@ -1,4 +1,8 @@
 import styled from 'styled-components'
+import deleteImage from '../assets/delete.png'
+import penImage from '../assets/edit-pen.png'
+import boxImage from '../assets/edit-box.png'
+import { useSelector } from 'react-redux'
 
 const Container = styled.div`
   display: flex;
@@ -20,6 +24,22 @@ const Container = styled.div`
     padding: 0 24px;
     background: #7695EC;
     height: 70px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    div{
+      display: ${(props) => (props.showDiv? 'flex' : 'none')};
+      gap: 34px;
+    }
+    span{
+      margin-top: 4px; 
+      position: relative;
+    }
+    .pen{
+      position: absolute;
+      right: 0;
+    }
   }
 
   .postData{
@@ -41,11 +61,19 @@ const Container = styled.div`
 `
 
 export const Post = (props) => {
+  const {currentUser} = useSelector((rootReducer) => rootReducer.reducer)
+
   return (
-    <Container>
+    <Container showDiv={props.data.username === currentUser? true : false}>
       <div className='title'>
         <h2>{props.data.title}</h2>
-        <span></span>
+        <div>
+          <img src={deleteImage}/>
+          <span>
+            <img className='pen' src={penImage}/>
+            <img src={boxImage}/>
+          </span>
+        </div>
       </div>
       <div className='postData'>
         <span>
