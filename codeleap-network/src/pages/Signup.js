@@ -2,6 +2,8 @@ import styled from 'styled-components'
 // import codeleap from '../assets/codeleap_logo.png'
 import { useState } from 'react'
 import { Body } from '../components/styledComponents'
+import { useNavigate } from "react-router-dom";
+import { goToPostsPage } from "../router/coordinator";
 
 const Container = styled.main`
   padding: 24px;
@@ -16,7 +18,7 @@ const Container = styled.main`
   max-width: 500px;
 
   h2{
-    font-size: 22px;
+    color: #000000;
   }
 
   div{
@@ -42,24 +44,40 @@ const Container = styled.main`
     align-self: flex-end;
     width: 111px;
     height: 32px;
-    background: #7695EC;
+    background: ${(props) => (props.username.length === 0? `#cfdbff`: `#7695EC`)};
     border-radius: 8px;
     border: none;
     color: #FFF;
+    cursor: ${(props) => (props.username.length === 0? `auto`: `pointer`)};
   }
 `
 
 export const Signup = () => {
   // const [isLoading, setIsLoading] = useState(false)
+  const [username, setUsername] = useState("")
+  const navigate = useNavigate()
+
+  const signup = () => {
+    localStorage.setItem("token", username)
+    goToPostsPage(navigate)
+    setUsername("")
+  }
 
   return (
     <Body>
-      <Container>
+      <Container username={username}>
         <h2>Welcome to CodeLeap network!</h2>
         <div>
           <p>Please enter your username</p>
-          <input placeholder='John doe' />
-          <button>ENTER</button>
+          <input
+            placeholder="John doe"
+            required
+            type="text"
+            name="username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <button disabled={username.length === 0? true : false} onClick={() => signup()}>ENTER</button>
         </div>
       </Container>
     </Body>
