@@ -1,8 +1,11 @@
+import { Body } from "./components/styledComponents";
+import { Router } from "./router/Router";
+
 function App() {
   return (
-    <div>
-
-    </div>
+    <Body>
+      <Router></Router>
+    </Body>
   );
 }
 
