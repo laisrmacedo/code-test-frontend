@@ -1,8 +1,9 @@
 import axios from 'axios'
 import { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { BASE_URL } from '../utils/constants'
+import { closeModal } from '../actions/actions'
 
 const Container = styled.div`
   display: flex;
@@ -12,6 +13,8 @@ const Container = styled.div`
   border: 1px solid #999999;
   border-radius: 16px;
   padding: 24px;
+  background-color: #FFF;
+  font-family: 'Roboto';
 
   h2{
     color: #000;
@@ -42,19 +45,42 @@ const Container = styled.div`
   }
 
   button{
-    align-self: flex-end;
-    width: 111px;
+    width: 120px;
     height: 32px;
     border-radius: 8px;
-    border: none;
     color: #FFF;
+  }
+
+  #createBtn{
+    align-self: flex-end;
+    border: none;
     background: ${(props) => ((props.title.length === 0 || props.content.length === 0)? `#cfdbff`: `#7695EC`)};
     cursor: ${(props) => ((props.title.length === 0 || props.content.length === 0)? `auto`: `pointer`)};
+  }
+
+  #saveBtn{
+    border: none;
+    color: #FFF;
+    background: ;
+    background: ${(props) => ((props.title.length === 0 || props.content.length === 0)? `#b8dac0`: `#47B960`)};
+    cursor: ${(props) => ((props.title.length === 0 || props.content.length === 0)? `auto`: `pointer`)};
+  }
+
+  #cancelBtn{
+    border: 1px solid #999999;
+    color: #000;
+    cursor: pointer;
+  }
+
+  span{
+    display: flex;
+    gap: 16px;
+    align-self: end;
   }
 }
 `
 
-export const CreatePost = () => {
+export const NewPost = (props) => {
   const [form, setForm] = useState({
     title: "",
     content: ""
@@ -62,7 +88,13 @@ export const CreatePost = () => {
 
   const handleClick = (e) => {
     e.preventDefault()
-    createPost()
+
+    if(e.nativeEvent.submitter.id === 'createBtn'){
+      createOrEditPost('post')
+    }else{
+      createOrEditPost('patch')
+      dispatch(closeModal())
+    }
   }
 
   const onChangeForm = (e) => {
@@ -70,17 +102,22 @@ export const CreatePost = () => {
     setForm({ ...form, [name]: value })
   }
 
-  const {currentUser} = useSelector((rootReducer) => rootReducer.reducer)
+  const {currentUser, clckedPostId} = useSelector((rootReducer) => rootReducer.reducer)
 
-  const body = {
-    username: currentUser,
-    title: form.title,
-    content: form.content
-  }
-
-  const createPost = async () => {
+  const createOrEditPost = async (req) => {
     try {
-      await axios.post(BASE_URL, body)
+      if(req === 'post'){
+        await axios.post(BASE_URL, {
+          username: currentUser,
+          title: form.title,
+          content: form.content
+        })
+      }else{
+        await axios.patch(BASE_URL + clckedPostId + '/', {
+          title: form.title,
+          content: form.content
+        })
+      }
       setForm({
         title: "",
         content: ""
@@ -89,10 +126,12 @@ export const CreatePost = () => {
       console.log(error.response.data)
     }
   }
+  
+  const dispatch = useDispatch()
 
   return (
     <Container title={form.title} content={form.content}>
-      <h2>What’s on your mind?</h2>
+      <h2>{props.component === 'toCreate'? 'What’s on your mind?': 'Edit item'}</h2>
       <form onSubmit={handleClick}>
         <div>
           <p>Title</p>
@@ -114,7 +153,14 @@ export const CreatePost = () => {
             onChange={onChangeForm}
           />
         </div>
-        <button disabled={(form.title.length === 0 || form.content.length === 0)? true : false}>Create</button>
+        {props.component === 'toCreate'? 
+          <button id="createBtn" disabled={(form.title.length === 0 || form.content.length === 0)? true : false}>Create</button>
+        :
+        <span>
+          <button id="cancelBtn" onClick={() => dispatch(closeModal())}>Cancel</button>
+          <button id="saveBtn" disabled={(form.title.length === 0 || form.content.length === 0)? true : false}>Save</button>
+        </span>
+        }
       </form>
     </Container>
   )
