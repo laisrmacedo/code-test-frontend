@@ -29,9 +29,15 @@ const Container = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-
+    @media screen and (max-width: 425px){
+      padding: 0 18px;
+    }
+    
     h2{
       color: #FFF;
+      @media screen and (max-width: 425px){
+        font-size: 16px;
+      }
     }
 
     div{
@@ -53,6 +59,9 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     gap: 16px;
+    @media screen and (max-width: 425px){
+      padding: 0 18px;
+    }
 
     >p{
       width: 100%;
@@ -62,9 +71,20 @@ const Container = styled.div`
       width: 100%;
       display: flex;
       justify-content: space-between;
+      h5{
+        font-size: 18px;
+        color: #777777;
+        @media screen and (max-width: 425px){
+          font-size: 16px;
+        }
+      }
       p{
         font-size: 18px;
         color: #777777;
+        text-align: right;
+        @media screen and (max-width: 425px){
+          font-size: 12px;
+        }
       }
     }
   }
@@ -114,7 +134,7 @@ export const Post = (props) => {
       </div>
       <div className='postData'>
         <span>
-          <h5>@{props.post.username}</h5>
+          <h5>@{props.post.username.length > 20? props.post.username.slice(0, 20) : props.post.username}</h5>
           <p>{time}</p>
         </span>
         <p>{props.post.content}</p>
