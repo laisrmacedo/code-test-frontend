@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { Body } from '../components/styledComponents'
-import { CreatePost } from '../components/CreatePost'
+import { NewPost } from '../components/NewPost'
 import { Post } from '../components/Post'
 import { useEffect, useState } from 'react'
 import axios from "axios";
@@ -10,6 +10,10 @@ import { goToSignupPage } from '../router/coordinator'
 import { useDispatch } from 'react-redux'
 import { logoutUser } from '../actions/actions'
 import { useSelector } from "react-redux";
+import ReactModal from 'react-modal'
+import { Modal } from "../components/Modal";
+import { closeModal } from "../actions/actions";
+import '../utils/modal.css'
 
 
 const Container = styled.div`
@@ -98,7 +102,7 @@ export const MainScreen = () => {
     getPosts()
   }, [posts])
 
-  const {currentUser} = useSelector((rootReducer) => rootReducer.reducer)
+  const {currentUser, isModalOpen} = useSelector((rootReducer) => rootReducer.reducer)
 
   useEffect(() => {
     if(currentUser === null){
@@ -112,6 +116,7 @@ export const MainScreen = () => {
     dispatch(logoutUser())
     goToSignupPage(navigate)
   }
+  
 
   return (
     <Body>
@@ -122,19 +127,28 @@ export const MainScreen = () => {
         </header>
         <main>
           <div className='createPost'>
-            <CreatePost></CreatePost>
+            <NewPost component={'toCreate'}/>
           </div>
           <div className='posts'>
           {posts?.map((post)=>{
             return(
               <PostContainer key={post.id} height={post.content?.length}>
-                <Post data={post}/>
+                <Post post={post}/>
               </PostContainer>
             )
           })}
           </div>
         </main>
       </Container>
+      <ReactModal
+        isOpen={isModalOpen}
+        onRequestClose={closeModal}
+        className="modal"
+        overlayClassName="overlay"
+        ariaHideApp={false}
+      >
+        <Modal/>
+      </ReactModal>
     </Body>
   )
 }
