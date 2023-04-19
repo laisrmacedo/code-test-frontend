@@ -2,9 +2,8 @@ import styled from 'styled-components'
 import deleteImage from '../assets/delete.png'
 import penImage from '../assets/edit-pen.png'
 import boxImage from '../assets/edit-box.png'
-import { useSelector } from 'react-redux'
-import axios from 'axios'
-import { BASE_URL } from '../utils/constants'
+import { useDispatch, useSelector } from 'react-redux'
+import { openModal, getRequestData } from '../actions/actions'
 
 const Container = styled.div`
   display: flex;
@@ -64,13 +63,11 @@ const Container = styled.div`
 
 export const Post = (props) => {
   const {currentUser} = useSelector((rootReducer) => rootReducer.reducer)
-
-  const deletePost = async (id) => {
-    try {
-      await axios.delete(BASE_URL + id + '/')
-    } catch (error) {
-      console.log(error.response.data)
-    }
+  const dispatch = useDispatch()
+  
+  const modalToRequest = async (modal, id) => {
+    dispatch(openModal())
+    dispatch(getRequestData(modal, id))
   }
 
   return (
@@ -78,8 +75,8 @@ export const Post = (props) => {
       <div className='title'>
         <h2>{props.post.title}</h2>
         <div>
-          <img src={deleteImage} onClick={() => deletePost(props.post.id)}/>
-          <span onClick={() => editPost(props.post.id)}>
+          <img src={deleteImage} onClick={() => modalToRequest('delete', props.post.id)}/>
+          <span onClick={() => modalToRequest('patch', props.post.id)}>
             <img className='pen' src={penImage}/>
             <img src={boxImage}/>
           </span>
