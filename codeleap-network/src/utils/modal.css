@@ -1,0 +1,54 @@
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  right: auto;
+  bottom: auto;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  max-width: 660px;
+  max-height: 500px;
+}
+
+h2{
+  font-size: 22px;
+  font-family: 'Roboto';
+  text-align: left;
+  font-weight: 700;
+}
+
+.overlay {
+  position: fixed;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(119, 119, 119, 0.8);
+}
+
+button{
+  width: 120px;
+  height: 32px;
+  border-radius: 8px;
+  font-weight: 700;
+}
+
+.cancelBtn{
+  border: 1px solid #999999;
+}
+
+.deleteBtn{
+  background: #FF5151;
+  border: none;
+  color: #FFF;
+}
+
+.saveBtn{
+  background: #47B960;
+  border: none;
+  color: #FFF;
+}
