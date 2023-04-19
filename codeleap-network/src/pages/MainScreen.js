@@ -24,7 +24,7 @@ const Container = styled.div`
   max-width: 800px;
   height: 100%;
   position: relative;
-  @media screen and (max-width: 425px){
+  @media screen and (max-width: 768px){
     width: 100%;
   }
 
@@ -85,7 +85,6 @@ const Container = styled.div`
       display: flex;
       flex-direction: column;
       gap: 22px;
-      /* min-height: 1500px; */
       width: 100%;
     }
 
@@ -102,6 +101,9 @@ const Container = styled.div`
 
 const PostContainer = styled.li`
   min-height: ${(props) => (props.height < 100 ? `181px` : 180+Math.floor(props.height/100)*22 + `px`)};
+  @media screen and (max-width: 425px){
+    min-height: ${(props) => (props.height < 100 ? `181px` : 180+Math.floor(props.height/46)*22 + `px`)};
+  }
 `
 
 export const MainScreen = () => {
