@@ -4,6 +4,7 @@ import penImage from '../assets/edit-pen.png'
 import boxImage from '../assets/edit-box.png'
 import { useDispatch, useSelector } from 'react-redux'
 import { openModal, getRequestData } from '../actions/actions'
+import { useEffect, useState } from 'react'
 
 const Container = styled.div`
   display: flex;
@@ -28,6 +29,10 @@ const Container = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    h2{
+      color: #FFF;
+    }
 
     div{
       display: ${(props) => (props.showDiv? 'flex' : 'none')};
@@ -57,6 +62,10 @@ const Container = styled.div`
       width: 100%;
       display: flex;
       justify-content: space-between;
+      p{
+        font-size: 18px;
+        color: #777777;
+      }
     }
   }
 `
@@ -69,6 +78,27 @@ export const Post = (props) => {
     dispatch(openModal())
     dispatch(getRequestData(modal, id))
   }
+
+  const [time, setTime] = useState("")
+  const getTime = () => {
+    let timeAgo
+    const now = Date.now()
+    const timePost = Date.parse(props.post.created_datetime)
+
+    if(now - timePost < 3600000){
+      timeAgo = new Date(now - timePost).getMinutes() + ' minutes ago'
+    } else if(now - timePost > 3600000 && now - timePost < 86400000){
+      timeAgo = new Date(now - timePost).getHours() + ' hours ago'
+    }else{
+      timeAgo = new Date(now - timePost).getDay() + ' days ago'
+    }
+    
+    setTime(timeAgo)
+  }
+
+  useEffect(() => {
+    getTime()
+  }, [])
 
   return (
     <Container showDiv={props.post.username === currentUser? true : false}>
@@ -85,7 +115,7 @@ export const Post = (props) => {
       <div className='postData'>
         <span>
           <h5>@{props.post.username}</h5>
-          <p>{props.post.created_datetime}</p>
+          <p>{time}</p>
         </span>
         <p>{props.post.content}</p>
       </div>
