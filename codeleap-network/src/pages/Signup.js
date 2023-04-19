@@ -62,7 +62,8 @@ export const Signup = () => {
   const dispatch = useDispatch()
 
   const signup = () => {
-    dispatch(signupUser(username))
+    localStorage.setItem('token', username)
+    dispatch(signupUser(localStorage.getItem('token')))
     goToPostsPage(navigate)
   }
   

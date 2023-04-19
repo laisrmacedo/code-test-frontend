@@ -1,5 +1,5 @@
 const initialState = {
-  currentUser: null,
+  currentUser:  localStorage.getItem('token') || null,
   isModalOpen: false,
   clckedPostId: null,
   modalRequest: null

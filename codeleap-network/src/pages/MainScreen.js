@@ -125,7 +125,6 @@ export const MainScreen = () => {
   useEffect(() => {
     const intersectionObserver = new IntersectionObserver((entries) => {
       if(entries.some((entry) => entry.isIntersecting)){
-        console.log('esta visivel')
         setCurrentOffset((currentOffsetInsideState) => currentOffsetInsideState + 5)
       }
     })
@@ -148,6 +147,7 @@ export const MainScreen = () => {
   const dispatch = useDispatch()
 
   const logout = () => {
+    localStorage.removeItem('token')
     dispatch(logoutUser())
     goToSignupPage(navigate)
   }
