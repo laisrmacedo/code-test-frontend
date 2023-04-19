@@ -21,11 +21,13 @@ const Container = styled.main`
   h2{
     color: #000000;
   }
-
+  
   div{
     width:100%;
     display: flex;
     flex-direction: column;
+    position: relative;
+    z-index: 2;
   }
 
   p{
