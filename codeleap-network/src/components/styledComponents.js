@@ -37,10 +37,13 @@ export const Body = styled.div`
   font-family: 'Roboto';
   font-size: 16px;
   background: #DDDDDD;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 0;
 
   h2{
     font-size: 22px;
-    color: #FFFFFF;
     font-weight: 700;
   }
 `
