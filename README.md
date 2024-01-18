@@ -12,6 +12,10 @@ The goal is to create a application that will perform basic CRUD functions. Base
 
 Live app link: https://codeleapnetwork.surge.sh/
 
+## 🧩 Backend
+
+https://dev.codeleap.co.uk/careers/
+
 ## 🛠 Tools
 
 To develop this application, concepts and technologies were taken, such as:
